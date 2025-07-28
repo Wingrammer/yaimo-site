@@ -1,5 +1,6 @@
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -9,6 +10,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import logo from "./assets/images/logo.png"
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,7 +35,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <div className="min-h-screen bg-black text-white font-sans">
+          <header className="flex items-center justify-between p-6 border-b border-white/10">
+            {/* <h1 className="text-2xl font-bold tracking-wide">Yaimo</h1> */}
+            <img src={logo} alt="Yaimo Logo" className="h-10 w-auto" />
+            <nav className="space-x-4 text-sm">
+              <Link to="/" className="hover:underline">Home</Link>
+              <Link to="/drivers" className="hover:underline">Drivers</Link>
+              <Link to="/tech" className="hover:underline">Tech</Link>
+              <Link to="/contact" className="hover:underline">Contact</Link>
+            </nav>
+          </header>
+          <main className="p-6 sm:p-12">{children}</main>
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>
