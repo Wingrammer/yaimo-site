@@ -1,5 +1,21 @@
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { useActionData } from 'react-router';
+
+export const action = async ({ request }: { request: Request }) => {
+  const formData = await request.formData();
+  // formData to object
+  const form: Record<string, string> = {};
+  formData.forEach((value, key) => {
+    form[key] = value.toString();
+  });
+  const { error } = await supabase.from('drivers').insert([form]);
+  if (error) {
+    console.error('Error inserting driver:', error);
+    return { success: false, message: 'Failed to submit form. Please try again later.' };
+  }
+  return { success: true, message: 'Thank you! We’ll contact you very soon.' };
+};
 
 function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -10,17 +26,19 @@ function Contact() {
     message: ''
   });
 
+  const actionData = useActionData<typeof action>();
+  const { success, message } = actionData || {};
+
+  useEffect(() => {
+    if (success) {
+      setSubmitted(true);
+    }
+  }, [success]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const { error } = await supabase.from('drivers').insert([form]);
-    if (!error) setSubmitted(true);
-    else alert('Something went wrong. Please try again later.');
-  };
 
   return (
     <div className="max-w-xl mx-auto space-y-8">
@@ -30,7 +48,7 @@ function Contact() {
       </p>
 
       {!submitted ? (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form method='POST' className="space-y-4">
           <input
             required name="name" value={form.name} onChange={handleChange}
             placeholder="Your full name"
