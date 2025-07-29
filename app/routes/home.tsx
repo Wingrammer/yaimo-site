@@ -1,5 +1,8 @@
 import React from 'react';
 import aiRide from '../assets/images/homevideo.png';
+import banner from '../assets/videos/banner.mp4';
+import googlePlay from '../assets/images/GetItOnGooglePlay_Badge_Web_color_English.png';
+import appStore from '../assets/images/download-on-the-app-store.svg';
 
 function Home() {
   return (
@@ -10,14 +13,41 @@ function Home() {
           autoPlay
           loop
           muted
-          className="absolute w-full h-full object-cover opacity-30"
-          src="/media/ride-hero.mp4"
+          className="absolute w-full h-full object-cover opacity-10"
+          src={`${banner}#t=[0][,8]`}
         />
         <div className="relative z-10">
-          <h1 className="text-5xl font-bold mb-4">Welcome to Yaimo</h1>
-          <p className="text-lg max-w-2xl mx-auto">
-            The first ride-hailing platform powered entirely by AI agents—from dispatch to driver support.
-          </p>
+              <h1 className="text-5xl font-bold mb-4">Welcome to Yaimo</h1>
+              <p className="text-lg max-w-2xl mx-auto">
+                The first ride-hailing platform powered entirely by AI agents—from dispatch to driver support.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 mt-4 p-4">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.example.yaimo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className='hover:opacity-80 transition-opacity duration-200'
+          >
+            <img
+              src={googlePlay}
+              alt="Download on Google Play"
+              
+              className="h-24"
+            />
+          </a>
+          <a
+            href="https://apps.apple.com/app/id0000000000"
+            target="_blank"
+            rel="noopener noreferrer"
+            className='hover:opacity-80 transition-opacity duration-200'
+          >
+            <img
+              src={appStore}
+              
+              className="h-24"
+            />
+          </a>
+        </div>
         </div>
       </section>
 
